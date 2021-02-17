@@ -1,0 +1,16 @@
+- name: update web servers
+  hosts: all
+  tasks:
+  - name: Stop Running Container
+    command: docker stop customcontainer
+    ignore_errors: true
+  - name: Remove Running Container
+    command: docker rm customcontainer
+    ignore_errors: true
+  - name: Remove Running Image
+    command: docker rmi customimage
+    ignore_errors: true
+  - name: Create Image from  Dockerfile
+    command: docker build -t customimage .
+  - name: Create container from  image
+    command: docker run -d --name customcontainer -p 8080:8080 customimage
